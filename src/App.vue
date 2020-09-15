@@ -74,7 +74,7 @@
     <!-- Change this out with your name and url ↓ -->
     <p>
       Created by
-      <a href="https://github.leslie1943.com">Leslie</a>
+      <a href="https://github.com/leslie1943">Leslie</a>
     </p>
     <p>
       Part of
