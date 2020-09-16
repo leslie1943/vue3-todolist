@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="module">
+    import { reactive, effect, toRefs, computed } from './reactivity/index.js'
+    const test = reactive('hello')
+    console.info(test)
+    const product = reactive({
+      name: 'iphone',
+      price: 5000,
+      count: 3
+    })
+
+    let total = computed(() => {
+      return product.price * product.count
+    })
+
+    console.info(total.value)
+
+    product.price = 4000
+    console.info(total.value)
+
+    product.count = 1
+    console.info(total.value)
+  </script>
+</body>
+
+</html>

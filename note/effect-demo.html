@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="module">
+    import { reactive, effect } from './reactivity/index.js'
+
+    const product = reactive({
+      name: 'iphone',
+      price: 5000,
+      count: 3
+    })
+    /*
+    product是代理对象
+    当访问 product.price的时候访问代理对象中price的get方法
+    在get方法中搜集依赖
+    搜集依赖的过程就是存储这个属性和这个回调函数(箭头函数)
+    属性和对象相关,在代理对象的get方法中会存储target目标对象,然后是目标对象的属性(price)
+    然后把对应的箭头函数存储起来
+    对应关系: 目标对象-对应的属性-箭头函数
+    在触发的时候在根据这个属性找到对应的箭头函数
+    当给price和count设置新值的时候，实际上触发的就是对应的属性对应的函数，然后立即执行
+    */
+    let total = 0
+    effect(() => {
+      total = product.price * product.count
+    })
+    console.info(total)
+
+    product.price = 4000
+    console.info(total)
+
+    product.count = 1
+    console.info(total)
+  </script>
+</body>
+
+</html>
