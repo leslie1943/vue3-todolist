@@ -1,6 +1,10 @@
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>-->
+  <!-- <img alt="Vue logo" src="./assets/logo.png">-->
+  <HelloWorld :obj="obj" :title="title" />
+  <p :style="{color:obj.color}">Message in parent: 《{{obj.msg}}》</p>
+  <p :style="{color:obj.color}">Title in parent: 《{{title}}》</p>
+  <TempateRef />
+
   <section id="app" class="todoapp">
     <header class="header">
       <!-- <h1>todos</h1> -->
@@ -84,9 +88,11 @@
 </template>
 
 <script>
+import HelloWorld from './components/HelloWorld'
+import TempateRef from './components/TempateRef'
 import './assets/index.css'
 import useLocalStorage from './utils/useLocalStorage.js'
-import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
 const storage = useLocalStorage()
 
 // 1: 添加代办
@@ -230,8 +236,16 @@ const useStorage = () => {
 // 主函数
 export default {
   name: 'App',
+  components: {
+    HelloWorld, TempateRef
+  },
   setup() {
+    // console.info('setup props', props)
+    // console.info('setup context', context)
     // 响应式
+    const obj = reactive({ msg: 'Hello V3', color: '#409FEE', size: '16px' })
+    const title = ref('')
+    title.value = 'title in parent'
     const todos = useStorage()
     // 解构remove, 为edit传参
     const { remove, removeCompleted } = useRemove(todos)
@@ -239,6 +253,8 @@ export default {
     return {
       todos,
       remove,
+      obj,
+      title,
       removeCompleted,
       ...useAdd(todos),
       ...useEdit(remove),
